@@ -1,0 +1,10 @@
+theme: jekyll-theme-cayman
+title: 我的旅遊計畫
+description: 家庭旅遊行程規劃
+exclude:
+  - CLAUDE.md
+  - .claude/
+  - node_modules/
+  - scripts/
+  - package.json
+  - package-lock.json
