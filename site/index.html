@@ -2,27 +2,38 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>旅遊行程</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>旅遊行程規劃</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-    h1 { border-bottom: 2px solid #0051c3; padding-bottom: 10px; }
-    a { color: #0051c3; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .trip-card { border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 16px 0; }
-    .trip-card h2 { margin-top: 0; }
+    :root {
+      --base-font-size: 15px;
+      --theme-color: #0051c3;
+      --sidebar-width: 16rem;
+      --sidebar-background: #f8f8f8;
+    }
+    .sidebar-nav li a { font-size: 0.95em; }
+    .markdown-section table { display: table; width: 100%; }
+    .markdown-section img { max-width: 100%; border-radius: 6px; }
+    .app-name-link { font-size: 1.1em !important; }
   </style>
 </head>
 <body>
-  <h1>🗺️ 旅遊行程規劃</h1>
-  <div class="trip-card">
-    <h2>🇰🇷 2026/7 首爾自由行</h2>
-    <p>18 人團 ｜ 7/2 - 7/7</p>
-  </div>
-  <div class="trip-card">
-    <h2>🇨🇳 2026/7 青島八日遊</h2>
-    <p>5 人家庭 ｜ 7/7 - 7/14</p>
-  </div>
-  <p style="color:#999; font-size:0.85em; margin-top:40px;">完整行程建置中...</p>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: '🗺️ 旅遊行程',
+      nameLink: '/',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      search: {
+        placeholder: '搜尋...',
+        noData: '找不到結果',
+      },
+      auto2top: true,
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@
 
 ## 住宿詳情
 
-![Trip.com 訂房確認截圖](訂房截圖.png)
+![Trip.com 訂房確認截圖](img/sheraton-booking.png)
 
 ### 1. 青島李滄綠城喜來登飯店（7/7-7/10，三晚）
 
