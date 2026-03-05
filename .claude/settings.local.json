@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "WebSearch",
+      "WebFetch",
+      "Task",
+      "TodoWrite",
+      "mcp__github__*",
+      "mcp__trello-mcp-server__*"
+    ]
+  }
+}
