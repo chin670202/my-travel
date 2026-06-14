@@ -4,3 +4,4 @@
   - [🚗 陸上方案](/yilan-land)
 - [🇰🇷 首爾自由行 7/2-7/7](/seoul)
 - [🇨🇳 青島八日遊 7/7-7/14](/qingdao)
+  - <a href="https://chin670202.github.io/my-travel/qingdao-trip.html" target="_blank" rel="noopener">📱 青島圖文版（手機）</a>

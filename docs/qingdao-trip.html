@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 青島親子家庭遊 · 5 人自由行</title>
+<style>
+  :root{
+    --pink:#ff5e7e; --orange:#ff8a3d; --amber:#ffa733;
+    --ink:#1f2430; --grey:#7b8190; --line:#eef0f4; --card:#ffffff;
+    --soft:#f6f7f9; --note:#fff5ec; --noteline:#ffd9b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    background:#f0f1f4;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:0 0 60px}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(120deg,var(--pink) 0%,var(--orange) 58%,var(--amber) 100%);
+    color:#fff;padding:26px 22px 64px;border-radius:0 0 28px 28px;position:relative;
+  }
+  .badge{display:inline-block;background:rgba(255,255,255,.22);backdrop-filter:blur(4px);
+    font-size:12px;font-weight:700;letter-spacing:2px;padding:5px 12px;border-radius:20px;margin-bottom:14px}
+  .hero h1{font-size:27px;font-weight:800;line-height:1.25;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .hero .dates{font-size:14px;opacity:.95;font-weight:600;margin-bottom:18px}
+  .cards{display:flex;gap:12px;flex-wrap:wrap}
+  .icard{flex:1;min-width:180px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:12px 14px}
+  .icard .k{font-size:11px;opacity:.85;font-weight:700;margin-bottom:4px}
+  .icard .v{font-size:15px;font-weight:800}
+  .icard .s{font-size:12px;opacity:.85;margin-top:2px}
+  .icard .s2{font-size:11px;opacity:.7;margin-top:1px}
+
+  /* Tabs */
+  .tabs{display:flex;background:#fff;margin:-40px 16px 0;border-radius:18px;
+    box-shadow:0 10px 30px rgba(60,60,90,.12);overflow:hidden;position:relative;z-index:2}
+  .tab{flex:1;text-align:center;padding:12px 4px;font-size:12.5px;font-weight:700;color:var(--grey);
+    cursor:pointer;border:none;background:none;transition:.15s}
+  .tab .ico{display:block;font-size:19px;margin-bottom:3px}
+  .tab.active{background:linear-gradient(120deg,var(--pink),var(--orange));color:#fff;border-radius:14px;margin:5px}
+
+  .panel{display:none;padding:18px 16px 0}
+  .panel.show{display:block}
+
+  /* Note */
+  .note{background:var(--note);border:1px solid var(--noteline);border-radius:16px;padding:14px 16px;margin-bottom:18px;display:flex;gap:11px}
+  .note .bell{font-size:18px}
+  .note b{display:block;color:#e0721f;font-size:14px;margin-bottom:3px}
+  .note p{font-size:12.5px;color:#9a6b3e}
+
+  /* Day card */
+  .day{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(60,60,90,.07);padding:16px 16px 6px;margin-bottom:16px}
+  .dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .dpill{background:#fff1e6;color:#e0721f;font-size:11px;font-weight:800;
+    padding:5px 11px;border-radius:20px}
+  .ddate{font-size:13px;color:var(--grey);font-weight:700}
+  .dtitle{font-size:17px;font-weight:800;margin:4px 0 12px}
+
+  .row{display:flex;gap:12px;padding-bottom:14px;position:relative}
+  .time{flex:0 0 46px;font-size:13px;font-weight:800;color:var(--orange);padding-top:1px}
+  .body{flex:1;border-left:2px solid var(--line);padding-left:14px;margin-left:-2px}
+  .row:last-child .body{border-color:transparent}
+  .body .dot{position:absolute;left:56px;top:6px;width:9px;height:9px;border-radius:50%;
+    background:var(--orange);box-shadow:0 0 0 3px #fff}
+  .act{font-size:14.5px;font-weight:800}
+  .sub{font-size:12.5px;color:var(--grey);margin-top:1px}
+  .tnote{background:var(--soft);border-radius:11px;padding:7px 11px;margin-top:8px;font-size:11.5px;color:#5a6072;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .tnote .seg{display:inline-flex;align-items:center;gap:4px}
+  .tnote .bar{color:#cdd2db}
+  .tag{display:inline-block;background:#fff0e6;color:#e0721f;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;margin-top:6px}
+  .warn{background:#fff4f4;color:#d24a4a;border:1px solid #ffd9d9}
+
+  /* generic list panels */
+  .sec{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(60,60,90,.07);padding:16px;margin-bottom:16px}
+  .sec h3{font-size:15px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+  .sec .lead{font-size:12.5px;color:var(--grey);margin-bottom:10px}
+  .item{padding:10px 0;border-top:1px solid var(--line)}
+  .item:first-of-type{border-top:none}
+  .item b{font-size:14px}
+  .item .zh{font-size:12px;color:var(--grey)}
+  .item p{font-size:12.5px;color:#5a6072;margin-top:2px}
+  .pricetag{float:right;font-size:12px;font-weight:800;color:#e0721f}
+  .chk{font-size:13.5px;padding:8px 0;border-top:1px dashed var(--line);display:flex;gap:9px;align-items:flex-start}
+  .chk:first-of-type{border-top:none}
+  .chk .b{flex:0 0 18px;color:var(--orange);font-weight:800}
+  .applist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .app{background:var(--soft);border-radius:13px;padding:11px 12px}
+  .app b{font-size:13.5px}
+  .app span{display:block;font-size:11.5px;color:var(--grey);margin-top:2px}
+  .htag{display:inline-block;background:#eaf2ff;color:#2f6fd6;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px;margin-left:4px;vertical-align:middle}
+  .kv{display:flex;font-size:13px;padding:7px 0;border-top:1px solid var(--line)}
+  .kv:first-of-type{border-top:none}
+  .kv .k2{flex:0 0 52px;color:var(--grey);font-weight:700}
+  .kv .v2{flex:1}
+  .hnote{font-size:12px;color:#5a6072;background:var(--soft);border-radius:10px;padding:8px 11px;margin-top:9px}
+  .book{display:inline-block;margin-top:11px;background:linear-gradient(120deg,var(--pink),var(--orange));color:#fff;
+    text-decoration:none;font-size:13px;font-weight:800;padding:9px 16px;border-radius:11px}
+  .alt h3{color:var(--grey)}
+
+  .foot{text-align:center;font-size:11px;color:#a6acba;padding:22px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">SUMMER 2026</span>
+    <h1>2026 青島親子家庭遊<br>5 人自由行（8 天 7 夜）</h1>
+    <div class="dates">📅 7/7（二）～ 7/14（二）· 共 8 天 7 夜 · 2 大 3 小（48/48/15/13/8 歲）</div>
+    <div class="cards">
+      <div class="icard">
+        <div class="k">🏨 住宿 (酒店)</div>
+        <div class="v">莫蘭迪 × 全季</div>
+        <div class="s">前 3 晚｜喬治莫蘭迪（北站店）</div>
+        <div class="s2">後 4 晚｜全季（五四廣場山東路店）</div>
+      </div>
+      <div class="icard">
+        <div class="k">🚕 交通 (交通)</div>
+        <div class="v">滴滴 / 地鐵</div>
+        <div class="s">5 人建議叫 6 人座 / 兩台</div>
+        <div class="s2">距離皆 ✅ 高德地圖實測</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="go(0,this)"><span class="ico">🗺️</span>行程</button>
+    <button class="tab" onclick="go(1,this)"><span class="ico">🍤</span>美食</button>
+    <button class="tab" onclick="go(2,this)"><span class="ico">📋</span>行前</button>
+    <button class="tab" onclick="go(3,this)"><span class="ico">📱</span>App</button>
+    <button class="tab" onclick="go(4,this)"><span class="ico">🏨</span>住宿</button>
+  </div>
+
+  <!-- ===== 每日行程 ===== -->
+  <div class="panel show" id="p0">
+    <div class="note">
+      <span class="bell">🔔</span>
+      <div>
+        <b>繁簡對照 · 交通距離透明</b>
+        <p>每天 <b>悠閒出發</b>，景點間皆備註 <b>高德實測里程與駕車/步行時間</b>。地名附簡體，方便叫滴滴、看地圖、給當地人看。</p>
+      </div>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 1 ✈ 落地 · 入住 · 夜市</span><span class="ddate">7/7（二）</span></div>
+      <div class="dtitle">落地青島，直奔李村夜市</div>
+      <div class="row"><div class="time">17:15</div><div class="body"><span class="dot"></span>
+        <div class="act">膠東機場落地 → 出關取行李</div>
+        <div class="sub">胶东国际机场 T1 → 莫兰迪酒店（北站店）入住</div>
+        <div class="tnote"><span class="seg">🚕 高德 ~34.5km</span><span class="bar">|</span><span class="seg">駕車 ~34 分</span><span class="bar">|</span><span class="seg">滴滴約 ¥100</span></div>
+      </div></div>
+      <div class="row"><div class="time">~19:00</div><div class="body"><span class="dot"></span>
+        <div class="act">莫蘭迪入住 Check-in</div>
+        <div class="sub">重庆中路 599 号 4 号楼（近青岛北站）</div>
+      </div></div>
+      <div class="row"><div class="time">19:30</div><div class="body"><span class="dot"></span>
+        <div class="act">李村夜市 晚餐（近百攤）</div>
+        <div class="sub">李村夜市（向阳路步行街，14:00–00:00）</div>
+        <div class="tnote"><span class="seg">🚕 ~3.4km</span><span class="bar">|</span><span class="seg">駕車 ~13 分</span></div>
+        <span class="tag">提醒：飯店旁無步行夜市，李村夜市需打車</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 2 🌊 玩水一整天</span><span class="ddate">7/8（三）</span></div>
+      <div class="dtitle">涨巢潮玩水疗局 親子放電日</div>
+      <div class="row"><div class="time">10:00</div><div class="body"><span class="dot"></span>
+        <div class="act">出發 → 涨巢潮玩水疗局（李沧万达 B1）</div>
+        <div class="sub">涨巢潮玩水疗局（李沧区巨峰路 178 号万达广场 B1）</div>
+        <div class="tnote"><span class="seg">🚕 高德 ~4.5km</span><span class="bar">|</span><span class="seg">駕車 ~13 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">全天</div><div class="body"><span class="dot"></span>
+        <div class="act">水樂園 / 兒童樂園 / 汗蒸 / 自助餐</div>
+        <div class="sub">25 種潮玩：水滑梯·蹦床·电竞·鱼疗·影音厅；含自助餐＋免費水果飲料</div>
+        <span class="tag">門票 5 人約 ~$2,000（待美團/電話確認）</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 3 🛒 早市 · 商場 · 夜市</span><span class="ddate">7/9（四）</span></div>
+      <div class="dtitle">興山路早市 → 樂客城 → 李村夜市</div>
+      <div class="row"><div class="time">07:00</div><div class="body"><span class="dot"></span>
+        <div class="act">興山路早市（海鮮早市，吃早餐）</div>
+        <div class="sub">兴山路农贸市场（四流中路 165 号，夏季 4:00–8:00）</div>
+        <div class="tnote"><span class="seg">🚕 高德 ~9 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">10:30</div><div class="body"><span class="dot"></span>
+        <div class="act">伟东·乐客城（逛街 / 兒童樂園 / 午餐）</div>
+        <div class="sub">伟东乐客城（夏庄路 1 号，10:00 开门）</div>
+        <div class="tnote"><span class="seg">🚕 早市→樂客城 ~4.9km</span><span class="bar">|</span><span class="seg">~19 分</span></div>
+        <span class="tag">早市 8:00 收、樂客城 10:00 開，中間空檔可回飯店補眠</span>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">李村夜市 晚餐</div>
+        <div class="sub">李村夜市（乐客城旁，步行可達）</div>
+        <div class="tnote"><span class="seg">🚶 ~5 分</span></div>
+      </div></div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 4 🏙 換飯店 · 市南商圈</span><span class="ddate">7/10（五）</span></div>
+      <div class="dtitle">轉住全季，萬象城 → 五四廣場 → 奧帆中心</div>
+      <div class="row"><div class="time">中午</div><div class="body"><span class="dot"></span>
+        <div class="act">莫蘭迪退房 → 全季入住（市南五四廣場）</div>
+        <div class="sub">全季酒店（市南区山东路 16 号阳光泰鼎大厦）</div>
+        <div class="tnote"><span class="seg">🚕 莫蘭迪→全季 ~14km</span><span class="bar">|</span><span class="seg">駕車 ~38 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">14:00</div><div class="body"><span class="dot"></span>
+        <div class="act">青島萬象城（逛街 + 午餐）</div>
+        <div class="sub">青岛万象城（山东路 6 号，45 万㎡，10:00–22:00）</div>
+        <div class="tnote"><span class="seg">🚶 全季→萬象城 ~1.2km</span><span class="bar">|</span><span class="seg">步行 ~16 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">五四廣場 → 奧帆中心（地標、海景、看帆船）</div>
+        <div class="sub">五四广场 / 奥帆中心（夜景佳）</div>
+        <div class="tnote"><span class="seg">🚶 萬象城→五四 ~10 分</span><span class="bar">|</span><span class="seg">五四→奧帆 ~17 分</span></div>
+      </div></div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 5 ⛪ 老城經典</span><span class="ddate">7/11（六）</span></div>
+      <div class="dtitle">棧橋 → 小青島 → 大教堂 → 大學路 → 信號山</div>
+      <div class="row"><div class="time">10:00</div><div class="body"><span class="dot"></span>
+        <div class="act">棧橋（青島地標，440m 長橋）</div>
+        <div class="sub">栈桥 / 小青岛公园（白色灯塔，需预约）</div>
+        <div class="tnote"><span class="seg">🚕 全季→棧橋 ~7.3km</span><span class="bar">|</span><span class="seg">駕車 ~20 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">聖彌愛爾大教堂 → 大學路網紅牆 → 信號山觀景</div>
+        <div class="sub">圣弥厄尔大教堂 / 大学路 / 信号山公园（旋转观景楼，需预约）</div>
+        <div class="tnote"><span class="seg">🚶 大教堂→大學路 ~12 分</span><span class="bar">|</span><span class="seg">→信號山 ~15 分</span></div>
+        <span class="tag warn">步行量大＋老城坡道，8 歲偏累；可搭地鐵 3 號線接駁、信號山遇海雾可略過</span>
+      </div></div>
+      <div class="row"><div class="time">門票</div><div class="body"><span class="dot"></span>
+        <div class="act">大教堂 $158／全家</div>
+        <div class="sub">信號山觀景樓 +$180（選配）</div>
+      </div></div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 6 🍺 海濱 · 啤酒 · 夜市</span><span class="ddate">7/12（日）</span></div>
+      <div class="dtitle">海之戀 → 小麥島 → 啤酒博物館 → 台東夜市</div>
+      <div class="row"><div class="time">10:00</div><div class="body"><span class="dot"></span>
+        <div class="act">海之戀公園（玩沙）→ 小麥島（環島觀海）</div>
+        <div class="sub">海之恋公园 / 小麦岛公园（嶗山东海岸，免费）</div>
+        <div class="tnote"><span class="seg">🚕 全季→海之戀 ~20 分</span><span class="bar">|</span><span class="seg">海之戀→小麥島步行 ~10 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">青島啤酒博物館（百年廠房 + 試飲）</div>
+        <div class="sub">青岛啤酒博物馆（登州路 56 号）</div>
+        <div class="tnote"><span class="seg">🚕 小麥島→啤酒館 ~7.4km</span><span class="bar">|</span><span class="seg">駕車 ~24 分</span></div>
+        <span class="tag">門票 $810／全家</span>
+      </div></div>
+      <div class="row"><div class="time">晚上</div><div class="body"><span class="dot"></span>
+        <div class="act">台東步行街夜市 晚餐（300 攤）</div>
+        <div class="sub">台东步行街（恣儿街夜市）</div>
+        <div class="tnote"><span class="seg">🚶 啤酒館→台東 ~18 分</span></div>
+      </div></div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 7 🏖 市南海岸步行</span><span class="ddate">7/13（一）</span></div>
+      <div class="dtitle">八大關 → 海水浴場 → 太平角</div>
+      <div class="row"><div class="time">10:00</div><div class="body"><span class="dot"></span>
+        <div class="act">八大關風景區（歐式建築 + 花石樓）→ 第一海水浴場（玩水）</div>
+        <div class="sub">八大关 / 花石楼 / 第一海水浴场</div>
+        <div class="tnote"><span class="seg">🚕 全季→八大關 ~12 分</span></div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">太平角公園 → 第三 → 第二海水浴場</div>
+        <div class="sub">太平角公园 / 第三、第二海水浴场（水質佳）</div>
+        <div class="tnote"><span class="seg">🚶 花石樓→太平角 ~0.5km/7 分</span><span class="bar">|</span><span class="seg">→第三/第二浴場各 ~10–15 分</span></div>
+        <span class="tag warn">海岸全程步行＋3 個浴場偏滿，可擇段；門票花石樓 $131</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 8 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 8 ✈ 返程</span><span class="ddate">7/14（二）</span></div>
+      <div class="dtitle">全季退房 → 膠東機場</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">全季退房 → 膠東機場</div>
+        <div class="sub">胶东国际机场（市南→机场较远）</div>
+        <div class="tnote"><span class="seg">🚕 約 55 分</span><span class="bar">|</span><span class="seg">或地鐵 2→8 號線 ~75 分</span></div>
+        <span class="tag warn">⚠️ 回程班機時間待補 → 才能定幾點離開全季</span>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ===== 美食速查 ===== -->
+  <div class="panel" id="p1">
+    <div class="sec">
+      <h3>🦐 青島必吃海鮮</h3>
+      <div class="lead">青島招牌，挑評分高店家、避免路邊生食</div>
+      <div class="item"><b>辣炒蛤蜊 <span class="zh">辣炒蛤蜊</span></b><p>青島人最日常的下酒菜，鮮辣夠味。</p></div>
+      <div class="item"><b>椒鹽蝦虎 <span class="zh">椒盐虾虎</span></b><p>膠州灣特產皮皮蝦，膏脂飽滿。</p></div>
+      <div class="item"><b>油燜大蝦 <span class="zh">油焖大虾</span></b><p>青島老味道，鹹鮮微甜。</p></div>
+      <div class="item"><b>船歌魚水餃 <span class="zh">船歌鱼水饺</span></b><p>連鎖、衛生、適合帶小孩；鮁魚/墨魚水餃必點。</p></div>
+    </div>
+    <div class="sec">
+      <h3>🍺 在地特色</h3>
+      <div class="item"><b>青島啤酒（原漿/塑膠袋裝）<span class="zh">青岛啤酒</span></b><p>啤酒博物館可試飲；台東/登州路啤酒街最對味。</p></div>
+      <div class="item"><b>脂渣 <span class="zh">脂渣</span></b><p>青島古早味豬肉零嘴，可燉白菜。</p></div>
+      <div class="item"><b>烧烤（肉串/鱿鱼）<span class="zh">烧烤</span></b><p>大排檔配啤酒，體驗在地夜生活。</p></div>
+    </div>
+    <div class="sec">
+      <h3>🌃 夜市 / 小吃街</h3>
+      <div class="item"><b>李村夜市 <span class="zh">李村夜市</span></b><p>近樂客城/向陽路步行街，近百攤（7/7、7/9 晚）。</p></div>
+      <div class="item"><b>台東步行街·恣兒街夜市 <span class="zh">台东步行街</span></b><p>市北最旺，約 300 攤（7/12 晚）。</p></div>
+      <div class="item"><b>興山路早市 <span class="zh">兴山路早市</span></b><p>海鮮早市，4–8am，逛吃早餐（7/9 晨）。</p></div>
+    </div>
+  </div>
+
+  <!-- ===== 行前準備 ===== -->
+  <div class="panel" id="p2">
+    <div class="sec">
+      <h3>📲 需提前微信預約 / 搶票</h3>
+      <div class="lead">多為免費但需預約，暑期名額緊張，建議提前 7 天</div>
+      <div class="chk"><span class="b">▢</span><div><b>信號山公園</b>（7/11）— 旋轉觀景樓需預約</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>小青島公園</b>（7/11）— 需預約</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>海軍博物館</b>（若加）— 提前 7 天；核潛艇每週一 17:00 放號，限身高 ≥1.3m（8 歲約 1.27m 可能不行）</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>青島科技館 / 世博園</b>（若 7/9 改去）— 微信小程序提前 7 天</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>涨巢過夜門票 / 兒童價</b> — 出發前以美團或電話 (0532)68000000 確認</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>回程班機時間</b> — 補上才能定 7/14</div></div>
+    </div>
+    <div class="sec">
+      <h3>🌦️ 青島 7 月天氣（重點防雨防雾，非防曬）</h3>
+      <div class="lead">沿海不熱：平均最高 ~27–28°C；但又濕又多雾多雨</div>
+      <div class="item"><b>濕度 ~85–89%</b><p>悶黏，備透氣排汗衣、飯店除濕。</p></div>
+      <div class="item"><b>多雾（7 月雾天可達 20 天）</b><p>信號山/小魚山/小青島等觀景點遇海雾會白茫茫 → 挑能見度好時去。</p></div>
+      <div class="item"><b>多雨（一年最多雨月，~21 雨日）</b><p>戶外/海水浴場日要有室內備案：萬象城、海信探索中心、海底世界、啤酒博物館。</p></div>
+    </div>
+    <div class="sec">
+      <h3>🎒 必備</h3>
+      <div class="chk"><span class="b">▢</span><div>雨具（折傘/雨衣）、防曬、帽子、充足飲水</div></div>
+      <div class="chk"><span class="b">▢</span><div>兒童救生衣（海水浴場 8 歲全程看護）</div></div>
+      <div class="chk"><span class="b">▢</span><div>腸胃藥、防蚊液、濕紙巾（夜市用）</div></div>
+      <div class="chk"><span class="b">▢</span><div>港澳台居民來往大陸通行證（台胞證）、兩間飯店訂單確認函</div></div>
+    </div>
+  </div>
+
+  <!-- ===== 必載 App ===== -->
+  <div class="panel" id="p3">
+    <div class="sec">
+      <h3>📱 出發前裝好（綁好支付）</h3>
+      <div class="lead">大陸幾乎無現金，務必先綁支付寶/微信支付</div>
+      <div class="applist">
+        <div class="app"><b>高德地圖</b><span>導航、查車程（本行程距離來源）</span></div>
+        <div class="app"><b>滴滴出行</b><span>叫車，5 人選 6 人座/兩台</span></div>
+        <div class="app"><b>微信 WeChat</b><span>支付＋小程序預約景點</span></div>
+        <div class="app"><b>支付寶 Alipay</b><span>支付＋叫車＋購票</span></div>
+        <div class="app"><b>美團 / 大眾點評</b><span>餐廳評分、景點/涨巢購票</span></div>
+        <div class="app"><b>攜程 Trip.com</b><span>飯店訂單、門票</span></div>
+      </div>
+    </div>
+    <div class="sec">
+      <h3>💳 支付 / 上網</h3>
+      <div class="item"><b>支付寶/微信綁外卡</b><p>可綁 Visa/Master（小額免實名）；建議出發前先綁好測試。</p></div>
+      <div class="item"><b>網路</b><p>中國 eSIM 或漫遊；查 Google/LINE 需自備翻牆（中國境內服務用高德/微信即可）。</p></div>
+    </div>
+  </div>
+
+  <!-- ===== 住宿 ===== -->
+  <div class="panel" id="p4">
+    <div class="sec">
+      <h3>🏨 喬治莫蘭迪飯店（北站店）<span class="htag">7/7–7/10 · 3 晚</span></h3>
+      <div class="lead">親子榻榻米房 · 評分 9.7/10（1,020 則評論）· 简：乔治莫兰迪酒店（青岛北站店）</div>
+      <div class="kv"><div class="k2">房型</div><div class="v2">1 張大床 + 1 張榻榻米；30㎡、無窗、樓層 2-3</div></div>
+      <div class="kv"><div class="k2">總價</div><div class="v2">TWD 9,075（3 晚，含早餐每日 2 份）</div></div>
+      <div class="kv"><div class="k2">取消</div><div class="v2">免費取消 7/7 20:00 前</div></div>
+      <div class="kv"><div class="k2">地址</div><div class="v2">李滄區重慶中路 599 號 4 號樓（近青島北站；步行 20 分到永年路站 1 號線）</div></div>
+      <div class="kv"><div class="k2">交通</div><div class="v2">機場直達 34 分；滄口側景點 8–13 分（高德實測）</div></div>
+      <div class="hnote">⚠️ 房型標示 4 位成人、無窗；5 人入住請向飯店確認加床/榻榻米可睡人數。</div>
+      <a class="book" href="https://tw.trip.com/hotels/ctorderdetail?orderid=1616330746721497&from=book&tradeNo=20260603223432AZ036685014042580300603810C&outTradeNo=1616330746721497&locale=zh-TW&resultStatus=0" target="_blank" rel="noopener">📄 Trip.com 訂單詳情</a>
+    </div>
+
+    <div class="sec">
+      <h3>🏨 全季飯店（五四廣場山東路店）<span class="htag">7/10–7/14 · 4 晚</span></h3>
+      <div class="lead">豪華家庭房 · 市南商圈核心 · 简：全季酒店（青岛五四广场山东路店）</div>
+      <div class="kv"><div class="k2">房型</div><div class="v2">2 張雙人床、45-48㎡、城市景觀、樓層 29；智能客控+保鮮冰箱+M3 記憶枕</div></div>
+      <div class="kv"><div class="k2">總價</div><div class="v2">TWD 13,596（4 晚，不含早餐）</div></div>
+      <div class="kv"><div class="k2">取消</div><div class="v2">免費取消 7/9 23:00 前</div></div>
+      <div class="kv"><div class="k2">地址</div><div class="v2">市南區山東路 16 號陽光泰鼎大廈（近五四廣場、萬象城）</div></div>
+      <div class="kv"><div class="k2">交通</div><div class="v2">萬象城步行 16 分、老城/八大關約 15 分、嶗山海濱約 20 分（高德實測）</div></div>
+      <div class="hnote">⚠️ 房型標示 3 位成人；5 人（含 3 小孩）入住請向飯店確認兒童政策/加床。不含早餐，周邊覓食方便。</div>
+      <a class="book" href="https://tw.trip.com/hotels/ctorderdetail?orderid=1616330738164744&from=book&tradeNo=20260603085656AZ130684993466867961045710C&outTradeNo=1616330738164744&locale=zh-TW&resultStatus=0" target="_blank" rel="noopener">📄 Trip.com 訂單詳情</a>
+    </div>
+
+    <div class="sec alt">
+      <h3>🏨 備案：李滄綠城喜來登 <span class="htag">未採用</span></h3>
+      <div class="lead">Marriott 品牌、室內泳池/三溫暖/行政酒廊；金水路 678 號</div>
+      <div class="hnote">原 7/7–7/10 候選，TWD 11,553。因離景點/機場多比莫蘭迪遠 5–8 分、離地鐵 3.6km，改訂莫蘭迪。</div>
+    </div>
+
+    <div class="sec">
+      <h3>💰 住宿合計</h3>
+      <div class="kv"><div class="k2">莫蘭迪</div><div class="v2">TWD 9,075（3 晚）</div></div>
+      <div class="kv"><div class="k2">全季</div><div class="v2">TWD 13,596（4 晚）</div></div>
+      <div class="kv"><div class="k2">合計</div><div class="v2"><b>TWD 22,671</b>（7 晚）</div></div>
+    </div>
+  </div>
+
+  <div class="foot">交通距離皆以高德地圖實測 · 2026/06 製作 · 票價窗口價僅供參考</div>
+</div>
+
+<script>
+  function go(i,el){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+    el.classList.add('active');
+    document.getElementById('p'+i).classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
