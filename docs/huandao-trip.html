@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 環島親子家庭遊 · 5 人自駕</title>
+<style>
+  :root{
+    --teal:#0ea5a5; --blue:#2f8fd6; --sky:#38bdf8;
+    --ink:#1f2430; --grey:#7b8190; --line:#eef0f4; --card:#ffffff;
+    --soft:#f6f7f9; --note:#eefaf8; --noteline:#b9e6e0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    background:#f0f1f4;color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:560px;margin:0 auto;padding:0 0 60px}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(120deg,var(--teal) 0%,var(--blue) 60%,var(--sky) 100%);
+    color:#fff;padding:26px 22px 64px;border-radius:0 0 28px 28px;position:relative;
+  }
+  .badge{display:inline-block;background:rgba(255,255,255,.22);backdrop-filter:blur(4px);
+    font-size:12px;font-weight:700;letter-spacing:2px;padding:5px 12px;border-radius:20px;margin-bottom:14px}
+  .hero h1{font-size:27px;font-weight:800;line-height:1.25;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .hero .dates{font-size:14px;opacity:.95;font-weight:600;margin-bottom:18px}
+  .cards{display:flex;gap:12px;flex-wrap:wrap}
+  .icard{flex:1;min-width:180px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:12px 14px}
+  .icard .k{font-size:11px;opacity:.85;font-weight:700;margin-bottom:4px}
+  .icard .v{font-size:15px;font-weight:800}
+  .icard .s{font-size:12px;opacity:.85;margin-top:2px}
+  .icard .s2{font-size:11px;opacity:.7;margin-top:1px}
+
+  /* Tabs */
+  .tabs{display:flex;background:#fff;margin:-40px 16px 0;border-radius:18px;
+    box-shadow:0 10px 30px rgba(60,60,90,.12);overflow:hidden;position:relative;z-index:2}
+  .tab{flex:1;text-align:center;padding:12px 4px;font-size:12.5px;font-weight:700;color:var(--grey);
+    cursor:pointer;border:none;background:none;transition:.15s}
+  .tab .ico{display:block;font-size:19px;margin-bottom:3px}
+  .tab.active{background:linear-gradient(120deg,var(--teal),var(--blue));color:#fff;border-radius:14px;margin:5px}
+
+  .panel{display:none;padding:18px 16px 0}
+  .panel.show{display:block}
+
+  /* Note */
+  .note{background:var(--note);border:1px solid var(--noteline);border-radius:16px;padding:14px 16px;margin-bottom:18px;display:flex;gap:11px}
+  .note .bell{font-size:18px}
+  .note b{display:block;color:#0b7d7d;font-size:14px;margin-bottom:3px}
+  .note p{font-size:12.5px;color:#4a7d78}
+
+  /* Day card */
+  .day{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(60,60,90,.07);padding:16px 16px 6px;margin-bottom:16px}
+  .dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .dpill{background:#e6f7f6;color:#0b7d7d;font-size:11px;font-weight:800;
+    padding:5px 11px;border-radius:20px}
+  .ddate{font-size:13px;color:var(--grey);font-weight:700}
+  .dtitle{font-size:17px;font-weight:800;margin:4px 0 4px}
+  .dpath{font-size:11.5px;color:#0b7d7d;background:#f2fbfa;border-radius:9px;padding:6px 10px;margin-bottom:12px;font-weight:700}
+
+  .row{display:flex;gap:12px;padding-bottom:14px;position:relative}
+  .time{flex:0 0 46px;font-size:12.5px;font-weight:800;color:var(--teal);padding-top:1px}
+  .body{flex:1;border-left:2px solid var(--line);padding-left:14px;margin-left:-2px}
+  .row:last-child .body{border-color:transparent}
+  .body .dot{position:absolute;left:56px;top:6px;width:9px;height:9px;border-radius:50%;
+    background:var(--teal);box-shadow:0 0 0 3px #fff}
+  .act{font-size:14.5px;font-weight:800}
+  .sub{font-size:12.5px;color:var(--grey);margin-top:1px}
+  .tnote{background:var(--soft);border-radius:11px;padding:7px 11px;margin-top:8px;font-size:11.5px;color:#5a6072;
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .tnote .seg{display:inline-flex;align-items:center;gap:4px}
+  .tnote .bar{color:#cdd2db}
+  .tag{display:inline-block;background:#e6f7f6;color:#0b7d7d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;margin-top:6px}
+  .warn{background:#fff4f4;color:#d24a4a;border:1px solid #ffd9d9}
+  .star{color:#e8a33d}
+
+  /* 多選一 */
+  .opt{border:1px dashed #bfe4e0;background:#f7fdfc;border-radius:13px;padding:10px 12px;margin-top:8px}
+  .opt .oh{font-size:11.5px;font-weight:800;color:#0b7d7d;margin-bottom:7px;letter-spacing:.5px}
+  .oitem{display:flex;gap:9px;padding:6px 0;border-top:1px solid #e4f3f1}
+  .oitem:first-of-type{border-top:none}
+  .oitem .n{flex:0 0 20px;height:20px;border-radius:50%;background:#0ea5a5;color:#fff;
+    font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .oitem .t{flex:1}
+  .oitem .t b{font-size:13.5px}
+  .oitem .t span{display:block;font-size:11.5px;color:var(--grey)}
+
+  /* 路線方案（整天二/三選一） */
+  .plan{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(60,60,90,.07);padding:16px;margin-bottom:16px}
+  .plan h4{font-size:14.5px;font-weight:800;margin-bottom:3px}
+  .plan .rec{display:inline-block;background:#0ea5a5;color:#fff;font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:8px;margin-left:6px;vertical-align:middle}
+  .plan .lead{font-size:12px;color:var(--grey);margin-bottom:9px}
+  .pstep{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:13px}
+  .pstep:first-of-type{border-top:none}
+  .pstep .w{flex:0 0 44px;font-size:11.5px;font-weight:800;color:var(--teal)}
+
+  /* generic list panels */
+  .sec{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(60,60,90,.07);padding:16px;margin-bottom:16px}
+  .sec h3{font-size:15px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+  .sec .lead{font-size:12.5px;color:var(--grey);margin-bottom:10px}
+  .item{padding:10px 0;border-top:1px solid var(--line)}
+  .item:first-of-type{border-top:none}
+  .item b{font-size:14px}
+  .item .zh{font-size:12px;color:var(--grey)}
+  .item p{font-size:12.5px;color:#5a6072;margin-top:2px}
+  .chk{font-size:13.5px;padding:8px 0;border-top:1px dashed var(--line);display:flex;gap:9px;align-items:flex-start}
+  .chk:first-of-type{border-top:none}
+  .chk .b{flex:0 0 18px;color:var(--teal);font-weight:800}
+  .htag{display:inline-block;background:#e6f7f6;color:#0b7d7d;font-size:11px;font-weight:700;padding:3px 9px;border-radius:8px;margin-left:4px;vertical-align:middle}
+  .kv{display:flex;font-size:13px;padding:7px 0;border-top:1px solid var(--line)}
+  .kv:first-of-type{border-top:none}
+  .kv .k2{flex:0 0 52px;color:var(--grey);font-weight:700}
+  .kv .v2{flex:1}
+  .hnote{font-size:12px;color:#5a6072;background:var(--soft);border-radius:10px;padding:8px 11px;margin-top:9px}
+  .stay{display:flex;justify-content:space-between;font-size:12.5px;padding:8px 0;border-top:1px solid var(--line)}
+  .stay:first-of-type{border-top:none}
+  .stay .d{color:var(--grey);font-weight:700;flex:0 0 62px}
+  .stay .h{flex:1}
+  .stay .p{font-weight:800;color:#0b7d7d}
+
+  .foot{text-align:center;font-size:11px;color:#a6acba;padding:22px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="badge">SUMMER 2026</span>
+    <h1>2026 環島親子家庭遊<br>5 人自駕（11 天 10 夜）</h1>
+    <div class="dates">📅 8/4（二）～ 8/14（五）· 共 11 天 10 夜 · 2 大 3 小（48/48/17/13/8 歲）</div>
+    <div class="cards">
+      <div class="icard">
+        <div class="k">🏨 住宿</div>
+        <div class="v">10 晚全訂齊 ✅</div>
+        <div class="s">虎尾·台南·高雄×2·東港·恆春</div>
+        <div class="s2">知本×2·花蓮×2</div>
+      </div>
+      <div class="icard">
+        <div class="k">🚗 交通</div>
+        <div class="v">自駕環島</div>
+        <div class="s">順時針單向前進，不走回頭路</div>
+        <div class="s2">⚠️ 各段車程待 Google Maps 實查</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="go(0,this)"><span class="ico">🗺️</span>行程</button>
+    <button class="tab" onclick="go(1,this)"><span class="ico">🔀</span>選項</button>
+    <button class="tab" onclick="go(2,this)"><span class="ico">🏨</span>住宿</button>
+    <button class="tab" onclick="go(3,this)"><span class="ico">📋</span>行前</button>
+  </div>
+
+  <!-- ===== 每日行程 ===== -->
+  <div class="panel show" id="p0">
+    <div class="note">
+      <span class="bell">🧭</span>
+      <div>
+        <b>排程三原則</b>
+        <p>① 每日景點上限 <b>3 個</b>（不含餐飲與順路快閃）② 全程 <b>順時針單向</b>，跨縣市的點一律放在移動日路上 ③ <b>11:00–15:00 走室內</b>，海邊步道排上午或 16:00 後。<br>🔀 標記處為<b>多選一</b>，詳見「選項」分頁。</p>
+      </div>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 1 🚗 出發 · 彰化</span><span class="ddate">8/4（二）</span></div>
+      <div class="dtitle">彰化玩到傍晚，再南下虎尾</div>
+      <div class="dpath">🧭 彰化市（東）→ 彰濱／鹿港（西）→ 王功（南）→ 虎尾</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 彰化扇形車庫 <span style="color:#bbb">/</span> 八卦山大佛</div>
+        <div class="sub">兩者都在彰化市，選一個就往西走</div>
+        <div class="opt">
+          <div class="oh">二選一</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>彰化扇形車庫</b><span>👨‍👩‍👧 火車轉盤，男孩會愛</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>八卦山大佛</b><span>⛰️ 大佛＋天空步道，步行較多</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">台灣玻璃館（黃金隧道）🏠</div>
+        <div class="sub">彰濱工業區 · 室內冷氣、鏡屋好拍</div>
+        <span class="tag">正好卡 11–15 點最熱時段</span>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 王功漁港 <span style="color:#bbb">/</span> 鹿港老街</div>
+        <div class="sub">王功＝夕陽＋位置更南不繞路｜鹿港＝吃得好、車程短</div>
+        <div class="opt">
+          <div class="oh">二選一 · 晚餐一起解決</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>王功漁港</b><span>🌊 潮間帶＋夕陽，順路往虎尾</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>鹿港老街＋龍山寺</b><span>🍜 小吃當晚餐，就在玻璃館旁</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">入住</div><div class="body"><span class="dot"></span>
+        <div class="act">雲林風華渡假精品旅館（虎尾）</div>
+        <span class="tag warn">⚠️ 18:00 後才能入住，所以今天可以玩到傍晚不必趕</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 2 🏛 台南</span><span class="ddate">8/5（三）</span></div>
+      <div class="dtitle">繞台南一圈，收在永康</div>
+      <div class="dpath">🧭 虎尾南下 → 台南北區 → 仁德（東南）→ 安平（西）→ 永康｜繞一圈不折返</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 頑皮世界 <span style="color:#bbb">/</span> 四草綠色隧道</div>
+        <div class="opt">
+          <div class="oh">二選一</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>頑皮世界野生動物園</b><span>👨‍👩‍👧 學甲 · 餵動物互動；從虎尾南下第一個遇到，最順</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>台江四草綠色隧道</b><span>🌊 安南 · 搭船遊紅樹林，船上有遮蔭；離傍晚的安平近</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 奇美博物館 <span style="color:#bbb">/</span> 十鼓仁糖 🏠</div>
+        <div class="sub">兩者都在仁德、彼此很近，冷氣足，最適合正午</div>
+        <div class="opt">
+          <div class="oh">二選一</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>奇美博物館</b><span>🏠 必去 · 西洋藝術／兵器／自然史</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>十鼓仁糖文創園區</b><span>🏠 糖廠改造 · 擊鼓體驗、溜滑梯</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">安平古堡 ＋ 安平老街 🍜</div>
+        <div class="sub">夕陽＋小吃當晚餐，吃飽再回永康</div>
+        <span class="tag">上午若選四草，建議改成「四草 → 安平午餐 → 仁德室內館 → 回永康」更省車程</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 3 🔬 高雄</span><span class="ddate">8/6（四）</span></div>
+      <div class="dtitle">科工館 → 鼓山 → 駁二</div>
+      <div class="dpath">🧭 台南南下 → 三民（東北）→ 鼓山（西）→ 鹽埕（西南）｜一路向西</div>
+      <div class="row"><div class="time">上午<br>午後</div><div class="body"><span class="dot"></span>
+        <div class="act">國立科學工藝館 🏠👨‍👩‍👧</div>
+        <div class="sub">三民區 · 進高雄第一站（位置最靠北）</div>
+        <span class="tag">大型室內科博館，互動展超多；8／13／17 歲都玩得動，正好避掉正午高溫</span>
+      </div></div>
+      <div class="row"><div class="time">16:00<br>前後</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 壽山動物園 <span style="color:#bbb">/</span> 兒童美術館</div>
+        <div class="sub">兩者都在鼓山區</div>
+        <div class="opt">
+          <div class="oh">二選一 · 看天氣決定</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>壽山動物園</b><span>👨‍👩‍👧 2023 重新開幕；涼一點再去</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>兒童美術館</b><span>🏠 動手玩、全程室內；太熱就選這個</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">駁二藝術特區 ＋ 哈瑪星鐵道園區 ＋ 輕軌 👨‍👩‍👧🍜</div>
+        <div class="sub">鹽埕 · 傍晚最舒服，裝置藝術＋晚餐一次解決</div>
+      </div></div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 4 🎢 高雄（定點日）</span><span class="ddate">8/7（五）</span></div>
+      <div class="dtitle">三條路線擇一，不換房</div>
+      <div class="dpath">🔀 整天三選一 — 詳見「選項」分頁</div>
+      <div class="row"><div class="time">🅰️</div><div class="body"><span class="dot"></span>
+        <div class="act">樂園日：義大世界 👨‍👩‍👧</div>
+        <div class="sub">大樹區 · 遊樂園＋Outlet，可選水樂園消暑</div>
+        <span class="tag">⭐ 推薦：三個男孩＋8 月，一個點玩整天、CP 值最高</span>
+      </div></div>
+      <div class="row"><div class="time">🅱️</div><div class="body"><span class="dot"></span>
+        <div class="act">文化日：佛陀紀念館 → 蓮池潭龍虎塔</div>
+        <div class="sub">大樹（東北）→ 左營（北）｜單向不折返</div>
+        <span class="tag warn">⚠️ 龍虎塔 2025 外觀已修復開放，但塔內（入龍喉出虎口）仍未開放，只能外觀拍照</span>
+      </div></div>
+      <div class="row"><div class="time">🅲</div><div class="body"><span class="dot"></span>
+        <div class="act">城市日：大魯閣草衙道 🏠 → 棧貳庫＋大港橋</div>
+        <div class="sub">前鎮商場（賽車場／摩天輪，全程冷氣）→ 港邊旋轉橋</div>
+        <span class="tag">最不曬；體力若已透支選這條</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 5 🐟 屏東 · 東港</span><span class="ddate">8/8（六）</span></div>
+      <div class="dtitle">屏東市 → 六堆 → 東港吃海鮮</div>
+      <div class="dpath">🧭 高雄 → 屏東市（北）→ 內埔（東）→ 大鵬灣／東港（西南沿海）｜收在住宿地</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 屏東縣民公園 <span style="color:#bbb">/</span> 勝利星村</div>
+        <div class="opt">
+          <div class="oh">二選一 · 都在屏東市區</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>屏東縣民公園</b><span>工業遺構水景，好拍好走</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>勝利星村</b><span>🍜 眷村文創、市集</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">六堆客家文化園區 🏠👨‍👩‍👧</div>
+        <div class="sub">內埔 · 大型園區，有室內館可吹冷氣，戶外水景讓小孩玩</div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">大鵬灣 🌊 → 東港華僑市場 🍜</div>
+        <div class="sub">環灣夕陽 → 黑鮪魚生魚片、現流海產當晚餐</div>
+        <span class="tag">吃完就回旅館（就在東港）</span>
+      </div></div>
+      <div class="row"><div class="time">替代</div><div class="body"><span class="dot"></span>
+        <div class="act">🔄 小琉球一日（會用掉整天）</div>
+        <div class="sub">東港搭船約 25 分 · 浮潛看海龜超適合親子</div>
+        <span class="tag warn">選小琉球＝上面三個點全部取消，當天只排這一個；需提前訂船票</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 6 👨‍👩‍👧 恆春（親戚日）</span><span class="ddate">8/9（日）</span></div>
+      <div class="dtitle">與親戚包棟，本行程不另排</div>
+      <div class="row"><div class="time">全天</div><div class="body"><span class="dot"></span>
+        <div class="act">恆春戀戀星辰民宿（與南部親戚包棟）</div>
+        <div class="sub">當日與親戚一起行動，景點由親戚方安排</div>
+        <span class="tag">東港 → 恆春路上若有空檔可順停（不強求）：車城福安宮、四重溪、恆春古城</span>
+      </div></div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 7 🛣 南迴 · 移動日</span><span class="ddate">8/10（一）</span></div>
+      <div class="dtitle">恆春 → 台東知本，沿南迴五個順停</div>
+      <div class="dpath">🧭 恆春 → 台 26／199 接台 9 → 一路北上（台 9 里程由大到小）→ 知本｜全程單向</div>
+      <div class="row"><div class="time">停 1</div><div class="body"><span class="dot"></span>
+        <div class="act"><span class="star">⭐</span> 南田人文景觀觀景台</div>
+        <div class="sub">屏東縣達仁鄉南田（南迴最南）· 停留 15 分</div>
+      </div></div>
+      <div class="row"><div class="time">停 2</div><div class="body"><span class="dot"></span>
+        <div class="act"><span class="star">⭐</span> 大武濱海公園 🌊👨‍👩‍👧</div>
+        <div class="sub">台東縣大武鄉大武村 · 停留 30 分</div>
+      </div></div>
+      <div class="row"><div class="time">停 3</div><div class="body"><span class="dot"></span>
+        <div class="act">多良車站</div>
+        <div class="sub">太麻里鄉多良（台 9 約 436K）· 停留 30 分</div>
+      </div></div>
+      <div class="row"><div class="time">停 4</div><div class="body"><span class="dot"></span>
+        <div class="act"><span class="star">⭐</span> 太麻里福興宮（招財貓土地公廟）👨‍👩‍👧</div>
+        <div class="sub">太麻里鄉南里街 32 號 · 6:30–21:00 · 免門票、免費停車</div>
+        <span class="tag">2m 高／逾 200kg 巨型招財貓、日式「雷門」紅燈籠；有手作平安冰棒、御守；2026/2/8 新啟用 36 座轉經輪</span>
+      </div></div>
+      <div class="row"><div class="time">停 5</div><div class="body"><span class="dot"></span>
+        <div class="act"><span class="star">⭐</span> 華源椰林大道／華源海灣 🌊</div>
+        <div class="sub">太麻里鄉台 9 線 395.5K · 24 小時開放</div>
+        <span class="tag">三大打卡點：椰林大道（40 棵大王椰子、百公尺）· S 彎海景公路 · 天空之鏡；另有漂流木愛心</span>
+      </div></div>
+      <div class="row"><div class="time">🔀</div><div class="body"><span class="dot"></span>
+        <div class="act">時間不夠的話：二選一</div>
+        <div class="opt">
+          <div class="oh">五點皆為 15–30 分順停，不計為完整景點</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>全停版</b><span>5 點全走，純停留約 2–2.5 小時（不含車程）</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>精選版</b><span>只停 南田觀景台 → 多良車站 → 華源椰林大道，把時間留給傍晚泡知本溫泉</span></div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- DAY 8 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 8 ♨️ 台東（定點日）</span><span class="ddate">8/11（二）</span></div>
+      <div class="dtitle">只玩「知本～台東市」這一段</div>
+      <div class="dpath">🧭 知本（住宿）→ 卑南 → 台東市區 → 回知本</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">知本國家森林遊樂區 ⛰️</div>
+        <div class="sub">就在住宿旁、零車程，早上最涼好走</div>
+        <span class="tag">8 歲走得完（挑短程步道即可）；想輕鬆可改成飯店泡湯／游泳</span>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 原生應用植物園 <span style="color:#bbb">/</span> 史前文化博物館</div>
+        <div class="opt">
+          <div class="oh">二選一</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>原生應用植物園</b><span>👨‍👩‍👧🍜 卑南 · 藥草火鍋＋餵動物，室內用餐</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>史前文化博物館</b><span>🏠 2023 重開 · 互動展佳、冷氣足</span></div></div>
+        </div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">鐵花村 ＋ 鐵道藝術村 🍜👨‍👩‍👧</div>
+        <div class="sub">台東市區 · 慢市集、晚上有現場音樂，晚餐一起解決</div>
+      </div></div>
+      <div class="row"><div class="time">📌</div><div class="body"><span class="dot"></span>
+        <div class="act">今天不去三仙台、池上</div>
+        <div class="sub">兩者都在北邊，已移到明天北上時順路走＝不繞回頭路</div>
+      </div></div>
+    </div>
+
+    <!-- DAY 9 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 9 🚙 台東 → 花蓮</span><span class="ddate">8/12（三）</span></div>
+      <div class="dtitle">今天開最久，兩條路線二選一</div>
+      <div class="dpath">🔀 選定就一路北上不換線，各挑 3 個點 — 詳見「選項」分頁</div>
+      <div class="row"><div class="time">🌊 A</div><div class="body"><span class="dot"></span>
+        <div class="act">海線（台 11）— 看海為主</div>
+        <div class="sub">小野柳＋加路蘭 → 富山護漁區 → 三仙台（八拱橋）</div>
+        <span class="tag">優點：親子互動強、海景一路｜缺點：三仙台正午曬、拱橋步行量大</span>
+      </div></div>
+      <div class="row"><div class="time">🌾 B</div><div class="body"><span class="dot"></span>
+        <div class="act">縱谷線（台 9）— 涼爽好走</div>
+        <div class="sub">池上伯朗大道 → 光復糖廠 → 馬太鞍濕地／林田山</div>
+        <span class="tag">⭐ 推薦：Day 11 蘇花會看整段海，今天走縱谷不重複；縱谷較陰涼、對 8 歲友善</span>
+      </div></div>
+      <div class="row"><div class="time">入住</div><div class="body"><span class="dot"></span>
+        <div class="act">東岸行旅（花蓮市延平街 45 號）</div>
+        <div class="sub">15:00 入住 · 8/12–8/14 共 2 晚</div>
+      </div></div>
+    </div>
+
+    <!-- DAY 10 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 10 🐬 花蓮（定點日）</span><span class="ddate">8/13（四）</span></div>
+      <div class="dtitle">壽豐玩一天，傍晚北上七星潭</div>
+      <div class="dpath">🧭 花蓮市 → 壽豐（南）→ 回花蓮市 → 七星潭（北）｜一去一回，中間不亂繞</div>
+      <div class="row"><div class="time">🅰️</div><div class="body"><span class="dot"></span>
+        <div class="act">樂園日（推薦）：遠雄海洋公園 👨‍👩‍👧🌊</div>
+        <div class="sub">壽豐 · 海洋樂園＋海豚表演，一個點玩整天</div>
+      </div></div>
+      <div class="row"><div class="time">🅱️</div><div class="body"><span class="dot"></span>
+        <div class="act">輕鬆日：立川漁場（摸蜊仔）→ 🔀 兆豐農場／雲山水</div>
+        <div class="sub">壽豐 · 摸蜆＋黃金蜆餐 → 餵草泥馬戲水 或 夢幻湖景</div>
+      </div></div>
+      <div class="row"><div class="time">傍晚</div><div class="body"><span class="dot"></span>
+        <div class="act">七星潭 🌊 → 東大門夜市 🍜</div>
+        <div class="sub">礫石海灣踏浪看海（回程順路往北）→ 原住民美食當晚餐</div>
+      </div></div>
+    </div>
+
+    <!-- DAY 11 -->
+    <div class="day">
+      <div class="dhead"><span class="dpill">DAY 11 🏁 花蓮 → 宜蘭 → 返家</span><span class="ddate">8/14（五）</span></div>
+      <div class="dtitle">走蘇花改，一路向北回家</div>
+      <div class="dpath">🧭 花蓮 → 崇德（秀林）→ 蘇花改 → 蘇澳 → 宜蘭 → 返家｜全程單向</div>
+      <div class="row"><div class="time">上午</div><div class="body"><span class="dot"></span>
+        <div class="act">崇德／匯德休憩區</div>
+        <div class="sub">看清水斷崖 · 蘇花改順停 15–20 分（不算完整景點）</div>
+        <span class="tag warn">⏰ 退房 11:00 前，建議早點出發，避開下午蘇花改車潮</span>
+      </div></div>
+      <div class="row"><div class="time">中午</div><div class="body"><span class="dot"></span>
+        <div class="act">南方澳觀景台 ＋ 內埤海灘 🌊</div>
+        <div class="sub">海灣全景，南方澳吃海鮮當午餐</div>
+      </div></div>
+      <div class="row"><div class="time">午後</div><div class="body"><span class="dot"></span>
+        <div class="act">🔀 傳藝中心 <span style="color:#bbb">/</span> 羅東林業 <span style="color:#bbb">/</span> 蘭陽博物館</div>
+        <div class="opt">
+          <div class="oh">三選一</div>
+          <div class="oitem"><span class="n">1</span><div class="t"><b>宜蘭傳統藝術中心</b><span>🏠👨‍👩‍👧🍜 DIY、表演，園區大、可玩久</span></div></div>
+          <div class="oitem"><span class="n">2</span><div class="t"><b>羅東林業文化園區</b><span>貯木池、森林鐵道，輕鬆好走</span></div></div>
+          <div class="oitem"><span class="n">3</span><div class="t"><b>蘭陽博物館</b><span>🏠 單面山建築；位置最北、最順路回家</span></div></div>
+        </div>
+        <span class="tag">最省時組合：匯德看斷崖 → 南方澳午餐 → 蘭陽博物館（頭城）→ 直接上國 5 回家</span>
+      </div></div>
+    </div>
+
+    <div class="note">
+      <span class="bell">⚠️</span>
+      <div>
+        <b>太魯閣封閉提醒</b>
+        <p>太魯閣國家公園因 0403 地震至 2026 年仍大範圍封閉，本行程<b>不依賴太魯閣</b>。蘇花改正常通行、清水斷崖觀景台可看。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 多選一總覽 ===== -->
+  <div class="panel" id="p1">
+    <div class="note">
+      <span class="bell">🔀</span>
+      <div>
+        <b>整天路線的二／三選一</b>
+        <p>Day 4、Day 9、Day 10 是「整天擇一」，選定後當天其他方案就不執行。其餘單一時段的多選一直接看「行程」分頁。</p>
+      </div>
+    </div>
+
+    <div class="plan">
+      <h4>DAY 4 · 高雄定點日 — 三選一</h4>
+      <div class="lead">8/7（五）· 同旅館不換房</div>
+      <div class="pstep"><span class="w">🅰️</span><div><b>樂園日：義大世界</b><span class="rec">推薦</span><br><span style="font-size:12px;color:#7b8190">大樹區 · 遊樂園＋Outlet＋水樂園，全天一個點就飽，晚餐直接在義大解決</span></div></div>
+      <div class="pstep"><span class="w">🅱️</span><div><b>文化＋地標日</b><br><span style="font-size:12px;color:#7b8190">上午～午後 佛陀紀念館（大樹，室內展館可避暑）→ 傍晚 蓮池潭龍虎塔（左營）</span></div></div>
+      <div class="pstep"><span class="w">🅲</span><div><b>城市日（最不曬）</b><br><span style="font-size:12px;color:#7b8190">午後 大魯閣草衙道（前鎮，商場＋賽車＋摩天輪）→ 傍晚 棧貳庫 KW2＋大港橋</span></div></div>
+      <div class="hnote">💡 三個男孩＋8 月 → 選 🅰️ 義大世界（含水樂園），一天玩透 CP 值最高；體力若已透支則選 🅲。</div>
+    </div>
+
+    <div class="plan">
+      <h4>DAY 9 · 台東 → 花蓮 — 二選一</h4>
+      <div class="lead">8/12（三）· 今天開最久，選定就一路北上不換線</div>
+      <div class="pstep"><span class="w">🌊 A</span><div><b>海線（台 11）</b><br><span style="font-size:12px;color:#7b8190">上午 小野柳＋加路蘭 → 午前 富山護漁區（潮間帶餵魚，小孩最愛）→ 午後 三仙台八拱橋；沿台 11 直上花蓮，可順停八仙洞</span></div></div>
+      <div class="pstep"><span class="w">🌾 B</span><div><b>縱谷線（台 9）</b><span class="rec">推薦</span><br><span style="font-size:12px;color:#7b8190">上午 池上伯朗大道（騎單車看稻浪）→ 午後 光復糖廠（吃冰、日式宿舍）→ 午後～傍晚 馬太鞍濕地／欣綠農園 或 林田山林業文化園區</span></div></div>
+      <div class="hnote">💡 選 B 的理由：Day 11 回程走蘇花會看整段海（清水斷崖），今天走縱谷才不重複；且 8 月縱谷比海線陰涼、對 8 歲友善。<br>（雲山水／鯉魚潭 也在縱谷線末段，可替換 B 方案任一項。）</div>
+    </div>
+
+    <div class="plan">
+      <h4>DAY 10 · 花蓮定點日 — 二選一</h4>
+      <div class="lead">8/13（四）· 同旅館不換房</div>
+      <div class="pstep"><span class="w">🅰️</span><div><b>樂園日</b><span class="rec">推薦</span><br><span style="font-size:12px;color:#7b8190">全天 遠雄海洋公園（壽豐）→ 傍晚 七星潭 → 晚餐 東大門夜市</span></div></div>
+      <div class="pstep"><span class="w">🅱️</span><div><b>輕鬆日（不進樂園）</b><br><span style="font-size:12px;color:#7b8190">上午 立川漁場摸蜊仔 → 午後 新光兆豐休閒農場 或 雲山水夢幻湖 → 傍晚 七星潭＋東大門夜市</span></div></div>
+    </div>
+
+    <div class="plan">
+      <h4>DAY 5 · 屏東 — 整日替代方案</h4>
+      <div class="lead">8/8（六）</div>
+      <div class="pstep"><span class="w">標準</span><div><b>屏東市 → 六堆 → 東港</b><br><span style="font-size:12px;color:#7b8190">縣民公園／勝利星村 → 六堆客家文化園區 → 大鵬灣＋東港華僑市場</span></div></div>
+      <div class="pstep"><span class="w">替代</span><div><b>小琉球一日</b><br><span style="font-size:12px;color:#7b8190">東港搭船約 25 分 · 浮潛看海龜。選了就取消上面三個點，當天只排這一個；需提前訂船票</span></div></div>
+    </div>
+
+    <div class="plan">
+      <h4>DAY 7 · 南迴五停 — 全停 or 精選</h4>
+      <div class="lead">8/10（一）· 皆為 15–30 分順停，不計為完整景點</div>
+      <div class="pstep"><span class="w">全停</span><div><b>5 點全走</b><br><span style="font-size:12px;color:#7b8190">南田觀景台 → 大武濱海公園 → 多良車站 → 福興宮招財貓 → 華源椰林大道（純停留約 2–2.5 小時）</span></div></div>
+      <div class="pstep"><span class="w">精選</span><div><b>只停 3 點</b><br><span style="font-size:12px;color:#7b8190">南田觀景台 → 多良車站 → 華源椰林大道，把時間留給傍晚泡知本溫泉</span></div></div>
+    </div>
+  </div>
+
+  <!-- ===== 住宿 ===== -->
+  <div class="panel" id="p2">
+    <div class="sec">
+      <h3>🏨 10 晚住宿一覽 <span class="htag">全部訂齊 ✅</span></h3>
+      <div class="lead">每晚為均價＝房費÷晚數，已含稅與折扣</div>
+      <div class="stay"><span class="d">8/4</span><span class="h">雲林風華渡假精品旅館（虎尾）</span><span class="p">4,293</span></div>
+      <div class="stay"><span class="d">8/5</span><span class="h">雀客藏居台南永康</span><span class="p">待補</span></div>
+      <div class="stay"><span class="d">8/6–8/8</span><span class="h">高雄樂逸旅居（2 晚）</span><span class="p">2,867</span></div>
+      <div class="stay"><span class="d">8/8</span><span class="h">屏東灣稻旅居（東港）</span><span class="p">3,771</span></div>
+      <div class="stay"><span class="d">8/9</span><span class="h">恆春戀戀星辰民宿（與親戚包棟）</span><span class="p">親戚結算</span></div>
+      <div class="stay"><span class="d">8/10–8/12</span><span class="h">知本芙儷渡假飯店（2 晚）</span><span class="p">3,689</span></div>
+      <div class="stay"><span class="d">8/12–8/14</span><span class="h">東岸行旅（花蓮，2 晚）</span><span class="p">2,556</span></div>
+      <div class="hnote">💰 已訂合計 <b>TWD 26,288</b> ＋ 台南房費（待補）。恆春由親戚方結算，未計入。</div>
+    </div>
+
+    <div class="sec">
+      <h3>🏨 雀客藏居台南永康 <span class="htag">8/5 · 1 晚</span></h3>
+      <div class="lead">CHECK inn Select Tainan Yongkang · 4★</div>
+      <div class="kv"><div class="k2">訂單</div><div class="v2">Agoda 訂單 1739882716</div></div>
+      <div class="kv"><div class="k2">日期</div><div class="v2">2026/8/5（三）– 8/6（四）</div></div>
+      <div class="kv"><div class="k2">付款</div><div class="v2">2026/7/30 完成付款</div></div>
+      <div class="kv"><div class="k2">電話</div><div class="v2">+886-6-3509539</div></div>
+      <div class="hnote">⚠️ 房費金額待補（訂單截圖未顯示）。</div>
+    </div>
+
+    <div class="sec">
+      <h3>🏨 東岸行旅（花蓮）<span class="htag">8/12–8/14 · 2 晚</span></h3>
+      <div class="lead">花蓮市延平街 45 號 · 3★ · 豪華和風四人房</div>
+      <div class="kv"><div class="k2">房型</div><div class="v2">2 張大床、33㎡、有窗、樓層 3</div></div>
+      <div class="kv"><div class="k2">總價</div><div class="v2">TWD 5,112（2 晚，含 8/13 每房 4 客早餐）</div></div>
+      <div class="kv"><div class="k2">時間</div><div class="v2">15:00 入住 / 11:00 退房</div></div>
+      <div class="kv"><div class="k2">取消</div><div class="v2">免費取消 2026/8/9 23:59 前</div></div>
+      <div class="kv"><div class="k2">電話</div><div class="v2">+886-3-8332889</div></div>
+      <div class="hnote">⚠️ 房型標示 <b>4 位成人</b>，你們 5 人入住——請先致電確認加床／兒童政策。</div>
+      <a class="book" style="display:inline-block;margin-top:11px;background:linear-gradient(120deg,var(--teal),var(--blue));color:#fff;text-decoration:none;font-size:13px;font-weight:800;padding:9px 16px;border-radius:11px" href="https://tw.trip.com/hotels/ctorderdetail?orderid=1616331404246578" target="_blank" rel="noopener">📄 Trip.com 訂單詳情</a>
+    </div>
+  </div>
+
+  <!-- ===== 行前準備 ===== -->
+  <div class="panel" id="p3">
+    <div class="sec">
+      <h3>✅ 出發前待辦</h3>
+      <div class="chk"><span class="b">▢</span><div><b>東岸行旅</b>房型標示 4 位成人，5 人入住需電話確認加床／兒童政策（+886-3-8332889）</div></div>
+      <div class="chk"><span class="b">▢</span><div>補上 <b>8/5 台南</b>〔雀客藏居台南永康〕房費金額</div></div>
+      <div class="chk"><span class="b">▢</span><div><b>各段車程尚未查證</b> — 用 Google Maps 逐段實查（尤其 Day 9 台東→花蓮長程、Day 7 南迴、Day 11 蘇花改）</div></div>
+      <div class="chk"><span class="b">▢</span><div>付費景點門票<b>逐人試算</b>（義大／遠雄海洋公園／奇美／科工館／頑皮世界等），依 48／48／17／13／8 歲各自級距計算</div></div>
+      <div class="chk"><span class="b">▢</span><div>確認營運狀態：<b>龍虎塔塔內是否開放</b>、遠雄海洋公園表演場次、傳藝中心活動檔期</div></div>
+      <div class="chk"><span class="b">▢</span><div>Day 5 決定是否改成 <b>小琉球一日</b>（需提前訂船票）</div></div>
+      <div class="chk"><span class="b">▢</span><div>Day 4 決定高雄三方案 · Day 9 決定海線或縱谷線 · Day 10 決定樂園日或輕鬆日</div></div>
+    </div>
+
+    <div class="sec">
+      <h3>🌦️ 8 月天氣重點</h3>
+      <div class="item"><b>高溫＋午後雷陣雨</b><p>11:00–15:00 已排室內；隨身備輕便雨衣／折傘，東部午後山區易有雷雨。</p></div>
+      <div class="item"><b>颱風季</b><p>8 月為颱風高峰，出發前留意氣象；蘇花改、南迴遇豪雨可能封路，需備替代路線。</p></div>
+      <div class="item"><b>防曬</b><p>海邊行程（王功、大鵬灣、七星潭、華源海灣）曬度高，帽子／防曬乳／充足飲水。</p></div>
+    </div>
+
+    <div class="sec">
+      <h3>🎒 必備</h3>
+      <div class="chk"><span class="b">▢</span><div>防曬乳、帽子、太陽眼鏡、充足飲水</div></div>
+      <div class="chk"><span class="b">▢</span><div>泳具＋兒童救生衣（義大水樂園／小琉球／海邊）</div></div>
+      <div class="chk"><span class="b">▢</span><div>輕便雨衣、折傘（午後雷陣雨）</div></div>
+      <div class="chk"><span class="b">▢</span><div>暈車藥（南迴、蘇花改彎道多）、防蚊液、常備藥</div></div>
+      <div class="chk"><span class="b">▢</span><div>行車導航／車充、ETC 餘額、備用現金（傳統市場、小攤）</div></div>
+    </div>
+
+    <div class="sec">
+      <h3>🧭 排程原則（本版依此排）</h3>
+      <div class="item"><b>每日景點上限 3 個</b><p>不含餐飲、順路快閃停靠、休閒散步。</p></div>
+      <div class="item"><b>不走回頭路</b><p>全程順時針單向前進；跨縣市的點一律放在移動日路上，不放在定點日。</p></div>
+      <div class="item"><b>11:00–15:00 走室內</b><p>8 月最熱時段安排室內或有遮蔭；海邊步道排上午或 16:00 後。</p></div>
+      <div class="item"><b>顧 8 歲體力</b><p>步行多的點一天最多一個，其餘以「下車即到」為主。</p></div>
+    </div>
+  </div>
+
+  <div class="foot">2026/8 環島 · 11 天 10 夜 · ⚠️ 各段車程待實查，票價／營運狀態出發前需再確認</div>
+</div>
+
+<script>
+  function go(i,el){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('show'));
+    el.classList.add('active');
+    document.getElementById('p'+i).classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
